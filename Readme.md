@@ -27,7 +27,7 @@ This is a Java application for exporting data from a MySQL database to various f
 *   MySQL database
 
 ## Getting Started
-
+*Note: if you want to use the mave-wrapper, append w to the mvn commands, ex: mvvnw clean
 1.  Clone the repository:
 
     ```bash
