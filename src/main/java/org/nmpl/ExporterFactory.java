@@ -48,12 +48,16 @@ public class ExporterFactory {
         }
     }
 
-    public Exportable getExporter(String format) throws Exception {
+    public Exportable getExporter(String format) {
         String className = exporterClassNames.get(format);
         if (className == null) {
             throw new IllegalArgumentException("Unsupported export format: " + format);
         }
-        return (Exportable)  Class.forName(className).getDeclaredConstructor(Connection.class).newInstance(connection);
+        try {
+            return (Exportable) Class.forName(className).getDeclaredConstructor(Connection.class).newInstance(connection);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create exporter instance", e);
+        }
     }
 
     public List<String> getSupportedFormats() {

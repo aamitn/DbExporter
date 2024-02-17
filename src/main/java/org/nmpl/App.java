@@ -15,7 +15,7 @@ public class App {
             try {
                 manager = new DbExporter(dbName,username,pasword);
             }
-            catch (SQLException e) {
+            catch (Exception e) {
                 throw new RuntimeException(e);
             }
             manager.setVisible(true);

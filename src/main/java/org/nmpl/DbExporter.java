@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class DbExporter extends JFrame {
-    private final JComboBox<String> exportFormatComboBox;
-    private final JList<String> tableList;
+    protected final JComboBox<String> exportFormatComboBox;
+    protected final JList<String> tableList;
     private final DefaultListModel<String> tableListModel;
     private final Connection connection;
 
@@ -60,7 +60,7 @@ public class DbExporter extends JFrame {
         exportButton.addActionListener(e -> exportTable());
     }
 
-    private void showTables() {
+    protected void showTables() {
         try {
             DatabaseMetaData metaData = connection.getMetaData();
             String catalog = connection.getCatalog();
@@ -81,7 +81,7 @@ public class DbExporter extends JFrame {
         }
     }
 
-    private void exportTable() {
+    protected void exportTable() {
         String selectedTable = tableList.getSelectedValue();
         if (selectedTable == null) {
             JOptionPane.showMessageDialog(this, "Please select a table to export.");
