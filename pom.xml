@@ -54,7 +54,7 @@
 
     <plugins>
 
-      <!-- Set a compiler level -->
+      <!-- Compiler Level Plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -90,6 +90,17 @@
           </execution>
         </executions>
       </plugin>
+
+      <!-- Java Exec Plugin -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <mainClass>org.nmpl.App</mainClass>
+        </configuration>
+      </plugin>
+
 
     </plugins>
 

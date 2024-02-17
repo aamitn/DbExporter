@@ -39,10 +39,15 @@ This is a Java application for exporting data from a MySQL database to various f
     ```bash
     mvn clean install
 
-3.  Run the application:
+3.  Run using jar:
 
     ```bash
     java -jar out/DbExporter.jar
+<p style="text-align: center;">OR</p>
+
+4.  Run using java mainClass:
+    ```bash
+    mvn compile exec:java
 
 ## Usage
 
