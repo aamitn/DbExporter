@@ -42,7 +42,7 @@ This is a Java application for exporting data from a MySQL database to various f
 3.  Run using jar:
 
     ```bash
-    java -jar out/DbExporter.jar
+    java -jar target/DbExporter.jar
 <p style="text-align: center;">OR</p>
 
 4.  Run using java mainClass:
