@@ -30,7 +30,7 @@ This is a Java application for exporting data from a MySQL database to various f
 
 1.  Clone the repository:
 
-    git clone https://github.com/aamitn/db-exporter.git
+    git clone https://github.com/your-username/db-exporter.git
 
 2.   Compile the code:
 
@@ -54,7 +54,7 @@ Click "Export Table" to export the selected table to the chosen format.
 
 Example Factory Class Usage:
 
-```plaintext
+```java
 ExporterFactory exportFactory = new ExporterFactory(connection);
 Exportable exporter = exportFactory.getExporter("xml"); 
 exporter.export("your_table_name", "output.xml");
@@ -66,7 +66,7 @@ The application employs a plugin architecture, allowing you to add new export fo
 
 Example for creating a new export format:
 
-```plaintext
+```java
 package org.nmpl.exporters;
 import org.nmpl.Exportable;
 public class NewFormatExporter implements Exportable {
@@ -83,7 +83,7 @@ The application is designed for configurationless operation. The config.xml file
 
 Example config.xml:
 
-```plaintext
+```xml
 <exporters>
 	<exporter> 
  		<type>html</type> 
