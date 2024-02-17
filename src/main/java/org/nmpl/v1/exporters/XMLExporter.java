@@ -1,0 +1,78 @@
+package org.nmpl.v1.exporters;
+
+import org.nmpl.v1.Configurable;
+import org.nmpl.v1.Exportable;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.FileOutputStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+
+public class XMLExporter implements Exportable, Configurable {
+    private final Connection connection;
+    public XMLExporter() {
+        this.connection = null;
+    }
+    public XMLExporter(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public void export(String tableName, String fileName) {
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+
+            Element rootElement = doc.createElement("tableData");
+            doc.appendChild(rootElement);
+
+            // Fetch the data from the database table
+            assert connection != null;
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM " + tableName);
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            // Generate XML elements for table data
+            while (resultSet.next()) {
+                Element row = doc.createElement("row");
+                rootElement.appendChild(row);
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = metaData.getColumnName(i);
+                    String columnValue = resultSet.getString(i);
+                    Element column = doc.createElement(columnName);
+                    column.appendChild(doc.createTextNode(columnValue));
+                    row.appendChild(column);
+                }
+            }
+
+            // Configure transformer to format the XML with new lines
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // Save the XML content to the specified file
+            try (FileOutputStream fileOutputStream = new FileOutputStream(fileName)) {
+                DOMSource source = new DOMSource(doc);
+                StreamResult result = new StreamResult(fileOutputStream);
+                transformer.transform(source, result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to export table to XML.");
+        }
+    }
+    @Override
+    public String getExportType() {
+        return "XML";
+    }
+}
