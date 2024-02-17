@@ -23,25 +23,26 @@ This is a Java application for exporting data from a MySQL database to various f
 
 ## Prerequisites
 
-*   Java 11 or higher
+*   Java 8 or higher
 *   MySQL database
 
 ## Getting Started
 
 1.  Clone the repository:
 
-    git clone https://github.com/your-username/db-exporter.git
+    ```bash
+    git clone https://github.com/aamitn/DbExporter.git
+    cd DbExporter
 
-2.   Compile the code:
+2.  Compile the code:
 
-    cd db-exporter
-
-    javac -cp .:path/to/mysql-connector-java.jar org/nmpl/\*.java org/nmpl/exporters/\*.java org/nmpl/exceptions/\*.java
+    ```bash
+    mvn clean install
 
 3.  Run the application:
 
-    java -cp .:path/to/mysql-connector-java.jar org.nmpl.App
-
+    ```bash
+    java -jar out/DbExporter.jar
 
 ## Usage
 
