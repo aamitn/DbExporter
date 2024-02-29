@@ -2,7 +2,7 @@ package org.nmpl;
 
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.jupiter.api.Test;
-import org.nmpl.v0.DbExporter;
+import org.nmpl.DbExporter;
 
 import javax.swing.*;
 import java.sql.SQLException;

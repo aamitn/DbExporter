@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.nmpl.exporters.XMLExporter;
-import org.nmpl.v0.Exportable;
-import org.nmpl.v0.ExporterFactory;
 
 import java.sql.Connection;
 import java.util.List;

@@ -123,7 +123,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.1.1</version>
         <configuration>
-          <mainClass>org.nmpl.v0.App</mainClass>
+          <mainClass>org.nmpl.App</mainClass>
         </configuration>
       </plugin>
 

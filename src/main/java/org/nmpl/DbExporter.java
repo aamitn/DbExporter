@@ -14,8 +14,8 @@ public class DbExporter extends JFrame {
     private final DefaultListModel<String> tableListModel;
     private final Connection connection;
 
-    public DbExporter() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bankdb", "root", "1234qwer");
+    public DbExporter(String dbName,String username,String pasword) throws SQLException {
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+dbName, username, pasword);
         setTitle("Database Manager");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
