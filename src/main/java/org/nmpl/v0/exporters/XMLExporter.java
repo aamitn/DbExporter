@@ -1,7 +1,6 @@
-package org.nmpl.v2.exporters;
+package org.nmpl.v0.exporters;
 
-import org.nmpl.v2.ExportType;
-import org.nmpl.v2.Exportable;
+import org.nmpl.v0.Exportable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -18,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
-@ExportType("XML")
 public class XMLExporter implements Exportable {
     private final Connection connection;
 

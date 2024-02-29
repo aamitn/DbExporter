@@ -1,4 +1,4 @@
-package org.nmpl.v2;
+package org.nmpl.v0;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class DbExporter extends JFrame {
-    private final JComboBox<String> exportFormatComboBox;
-    private final JList<String> tableList;
+    protected final JComboBox<String> exportFormatComboBox;
+    protected final JList<String> tableList;
     private final DefaultListModel<String> tableListModel;
     private final Connection connection;
 
-    public DbExporter() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bankdb", "root", "");
+    public DbExporter(String dbName,String username,String pasword) throws SQLException {
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+dbName, username, pasword);
         setTitle("Database Manager");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +60,7 @@ public class DbExporter extends JFrame {
         exportButton.addActionListener(e -> exportTable());
     }
 
-    private void showTables() {
+    protected void showTables() {
         try {
             DatabaseMetaData metaData = connection.getMetaData();
             String catalog = connection.getCatalog();
@@ -75,12 +75,13 @@ public class DbExporter extends JFrame {
 
             tables.close();
         } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Failed to connect to the database or fetch tables.");
+            String error = "Failed to connect to the database or fetch tables.";
+            JOptionPane.showMessageDialog(this, error);
+            throw new DbExporterException(error, e);
         }
     }
 
-    private void exportTable() {
+    protected void exportTable() {
         String selectedTable = tableList.getSelectedValue();
         if (selectedTable == null) {
             JOptionPane.showMessageDialog(this, "Please select a table to export.");
@@ -106,8 +107,9 @@ public class DbExporter extends JFrame {
                 exporter.export(selectedTable, fileName);
                 JOptionPane.showMessageDialog(this, "Table data exported to " + fileName);
             } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Failed to export table.");
+                String error = "Failed to export table.";
+                JOptionPane.showMessageDialog(this, error);
+                throw new DbExporterException(error, e);
             }
         }
     }

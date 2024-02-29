@@ -1,12 +1,9 @@
-package org.nmpl.v2.exporters;
+package org.nmpl.v0.exporters;
 
-
-import org.nmpl.v2.ExportType;
-import org.nmpl.v2.Exportable;
+import org.nmpl.v0.DbExporterException;
+import org.nmpl.v0.Exportable;
 
 import java.sql.Connection;
-
-@ExportType("TEST")
 public class TestExporter implements Exportable {
     private final Connection connection;
 
@@ -17,10 +14,9 @@ public class TestExporter implements Exportable {
     @Override
     public void export(String tableName, String fileName) {
         try {
-        System.out.println("TEST EXPORTER");
+        System.out.println("TEST EXPORTER\n DB NAME: "+connection.getCatalog());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to export table to HTML.");
+            throw new DbExporterException("Failed to export table to HTML.",e);
         }
     }
 }

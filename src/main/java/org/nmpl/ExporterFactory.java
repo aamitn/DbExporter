@@ -1,17 +1,9 @@
 package org.nmpl;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.reflections.Reflections;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ExporterFactory {
     private final Map<String, String> exporterClassNames;
@@ -22,25 +14,16 @@ public class ExporterFactory {
         exporterClassNames = new HashMap<>();
         loadExporterConfig();
     }
-
     private void loadExporterConfig() {
         try {
-            // Parse the XML configuration file
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(getClass().getClassLoader().getResourceAsStream("config.xml"));
+            String exporterPackage = "org.nmpl.exporters";
+            Reflections reflections = new Reflections(exporterPackage);
+            Set<Class<? extends Exportable>> exporterClasses = reflections.getSubTypesOf(Exportable.class);
 
-            doc.getDocumentElement().normalize();
-
-            // Read exporter elements from the XML
-            NodeList nodeList = doc.getElementsByTagName("exporter");
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node node = nodeList.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    String type = element.getElementsByTagName("type").item(0).getTextContent();
-                    String className = element.getElementsByTagName("class").item(0).getTextContent();
-                    exporterClassNames.put(type, className);
+            for (Class<? extends Exportable> exporterClass : exporterClasses) {
+                String format = getExportFormat(exporterClass);
+                if (format != null) {
+                    exporterClassNames.put(format, exporterClass.getName());
                 }
             }
         } catch (Exception e) {
@@ -48,16 +31,20 @@ public class ExporterFactory {
         }
     }
 
-    public Exportable getExporter(String format) {
+    private String getExportFormat(Class<? extends Exportable> exporterClass) {
+        ExportType annotation = exporterClass.getAnnotation(ExportType.class);
+        if (annotation != null) {
+            return annotation.value();
+        }
+        return null;
+    }
+
+    public Exportable getExporter(String format) throws Exception {
         String className = exporterClassNames.get(format);
         if (className == null) {
             throw new IllegalArgumentException("Unsupported export format: " + format);
         }
-        try {
-            return (Exportable) Class.forName(className).getDeclaredConstructor(Connection.class).newInstance(connection);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to create exporter instance", e);
-        }
+        return (Exportable)  Class.forName(className).getDeclaredConstructor(Connection.class).newInstance(connection);
     }
 
     public List<String> getSupportedFormats() {

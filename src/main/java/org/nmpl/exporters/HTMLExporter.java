@@ -1,5 +1,6 @@
 package org.nmpl.exporters;
 
+import org.nmpl.ExportType;
 import org.nmpl.Exportable;
 
 import java.io.FileWriter;
@@ -8,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
+@ExportType("HTML")
 public class HTMLExporter implements Exportable {
     private final Connection connection;
 

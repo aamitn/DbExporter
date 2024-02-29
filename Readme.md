@@ -1,6 +1,6 @@
 ## Database Exporter Application
 
-This is a Java application for exporting data from a MySQL database to various formats (e.g., HTML, XML, etc.). The application uses Swing for the graphical user interface and supports a plug-and-play architecture for adding new export formats without changing existing code.
+This is a Java application for exporting data from a MySQL database to various formats (e.g., HTML, XML, etc.). The application uses Swing for the graphical user interface and supports a plug-and-play architecture with configuration-less addition of new export formats without changing existing code.
 
 ## Table of Contents
 
@@ -20,6 +20,12 @@ This is a Java application for exporting data from a MySQL database to various f
 *   Extensible architecture for adding new export formats without modifying existing code.
 *   Graphical user interface using Swing.
 *   Virtually configurationless operation.
+    </br>
+### Variants
+* `v0` &emsp;&emsp;&emsp; :`(uses an XML config file for adding new export formats)` \
+* `v1` &emsp;&emsp;&emsp; :`(Configurationless addition of new export formats)`\
+* `Base App` : `v1 + new export format name annotations (@ExportType) `
+
 
 ## Prerequisites
 
@@ -68,13 +74,29 @@ exporter.export("your_table_name", "output.xml");
 
 ## Plugin Architecture
 
-The application employs a plugin architecture, allowing you to add new export formats without modifying existing code. To add a new export format, simply create a new class implementing the Exportable interface and place it in the org.nmpl.exporters package.
+The application employs a plugin architecture, allowing you to add new export formats without modifying existing code or addintional config. To add a new export format, simply create a new class implementing the Exportable interface and place it in the org.nmpl.exporters package.
 
 Example for creating a new export format:
 
 ```java
 package org.nmpl.exporters;
+
 import org.nmpl.Exportable;
+
+public class NewFormatExporter implements Exportable {
+// Implement the export method as per your requirements
+}
+```
+
+
+You can give the name of the export format using annotaions like this:
+```java
+package org.nmpl.exporters;
+
+import org.nmpl.ExportType;
+import org.nmpl.Exportable;
+
+@ExportType("Export_Type_Name")
 public class NewFormatExporter implements Exportable {
 // Implement the export method as per your requirements
 }
@@ -85,7 +107,12 @@ No changes to the existing code are needed. The new class is automatically recog
 
 ## Configurationless Operation
 
-The application is designed for configurationless operation. The config.xml file, located in the resources directory, maps export formats to their corresponding Java class names. This enables the application to dynamically recognize and utilize new exporters without explicit configuration.
+The application is designed for configurationless operation due to its internal usage of Reflection and class loader libraries.
+***
+
+#### Note : You may choose to use the version of the program that does not uses an XML configuration file to load the new export types `Go to the V0 directory and run the App.java inside it`
+The config.xml file, located in the resources directory, maps export formats to their corresponding Java class names. This enables the application to dynamically recognize and utilize new exporters without explicit configuration.
+
 
 Example config.xml:
 

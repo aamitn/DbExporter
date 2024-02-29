@@ -2,15 +2,15 @@
 <exporters>
     <exporter>
         <type>HTML</type>
-        <class>org.nmpl.exporters.HTMLExporter</class>
+        <class>org.nmpl.v0.exporters.HTMLExporter</class>
     </exporter>
     <exporter>
         <type>XML</type>
-        <class>org.nmpl.exporters.XMLExporter</class>
+        <class>org.nmpl.v0.exporters.XMLExporter</class>
     </exporter>
     <exporter>
         <type>TEST</type>
-        <class>org.nmpl.exporters.TestExporter</class>
+        <class>org.nmpl.v0.exporters.TestExporter</class>
     </exporter>
     <!-- Add additional export formats here -->
 </exporters>
