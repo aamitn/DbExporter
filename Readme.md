@@ -1,6 +1,6 @@
 ## Database Exporter Application
 
-This is a Java application for exporting data from a MySQL database to various formats (e.g., HTML, XML, etc.). The application uses Swing for the graphical user interface and supports a plug-and-play architecture with configuration-less addition of new export formats without changing existing code.
+This is a Java application for exporting data from a MySQL database table to various formats (e.g., HTML, XML, etc.). The application uses Swing for the graphical user interface and supports a plug-and-play architecture with configuration-less addition of new export formats without changing existing code.
 
 ## Table of Contents
 
